@@ -41,10 +41,10 @@ or build the docker file locally:
 ``` bash
 
 # Build Docker Image
-docker build -t <your username>/uavlogviewer .
+docker build -t manasnair1/uavlogviewer .
 
 # Run Docker Image
-docker run -e VUE_APP_CESIUM_TOKEN=<Your cesium ion token> -it -p 8080:8080 -v ${PWD}:/usr/src/app <your username>/uavlogviewer
+docker run -e VUE_APP_CESIUM_TOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI5OTc4ZmM2Zi1mMTAwLTRiMDgtOWFiMy1jMDZkNmIxMDYzMzciLCJpZCI6MzA4MDQzLCJpYXQiOjE3NDg3MDI4Nzh9.B471G6n68ywPyk8A-RO6-C1o7VzcW2L6ksrWpg3zGsc -it -p 8080:8080 -v ${PWD}:/usr/src/app manasnair1/uavlogviewer
 
 # Navigate to localhost:8080 in your web browser
 

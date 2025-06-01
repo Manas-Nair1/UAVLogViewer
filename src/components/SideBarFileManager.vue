@@ -193,6 +193,7 @@ export default {
             }
             , false)
             request.open('POST', '/upload')
+            console.log('uploading file', this.file)
             request.send(formData)
         },
         fixData (message) {
@@ -238,7 +239,8 @@ export default {
                 })
             }
         })
-        worker.onmessage = (event) => {
+        worker.onmessage = async (event) => {
+            console.log('worker message received', event.data)
             if (event.data.percentage) {
                 this.state.processPercentage = event.data.percentage
             } else if (event.data.availableMessages) {
@@ -253,6 +255,23 @@ export default {
             } else if (event.data.messageType) {
                 this.state.messages[event.data.messageType] = event.data.messageList
                 this.$eventHub.$emit('messages')
+                console.log('sending to py')
+                try {
+                    const response = await fetch('http://localhost:8000/api/parsed-data', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(event.data)
+                    })
+                    if (!response.ok) {
+                        console.error('Failed to send parsed data:', response.statusText)
+                    } else {
+                        console.log('Parsed data successfully sent to backend')
+                    }
+                } catch (error) {
+                    console.error('Error sending parsed data:', error)
+                }
             } else if (event.data.files) {
                 this.state.files = event.data.files
                 this.$eventHub.$emit('messages')
