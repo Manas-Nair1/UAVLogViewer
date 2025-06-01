@@ -1,12 +1,18 @@
 <template>
     <div id="app" style="height: 100%;">
         <router-view/>
+        <HelpBox />
     </div>
 </template>
 
 <script>
+import HelpBox from './components/HelpBox.vue'
+
 export default {
-    name: 'App'
+    name: 'App',
+    components: {
+        HelpBox
+    }
 }
 </script>
 
