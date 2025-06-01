@@ -85,7 +85,16 @@ import {
 } from './cesiumExtra/boundingPolygon.js'
 
 // Set Cesium token from environment variable
-Ion.defaultAccessToken = process.env.VUE_APP_CESIUM_TOKEN || ''
+// const cesiumToken = process.env.VUE_APP_CESIUM_TOKEN || ''
+// eslint-disable-next-line max-len
+const cesiumToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJlODkwMGYwOS1jYTM5LTRhYzYtOThkYy0xMTk3M2ZkMDcyYjciLCJpZCI6MzA4MDQzLCJpYXQiOjE3NDg3MDI5MjB9.edxZypmwiGcl4ZnDuZxGRLp2UzHWquZO1uii6DXSaks'
+if (!cesiumToken) {
+    console.warn('No Cesium token found in environment variables, using offline mode')
+    // Force offline mode if no token
+    store.isOnline = false
+}
+Ion.defaultAccessToken = cesiumToken
+// Ion.defaultAccessToken = process.env.VUE_APP_CESIUM_TOKEN || ''
 
 const colorCoderMode = new ColorCoderMode(store)
 const colorCoderRange = new ColorCoderRange(store)

@@ -12,7 +12,7 @@ export const store = {
     defaultParams: {},
     showParams: false,
     showRadio: false,
-    showMessages: false,
+    showMessages: true,
     showDeviceIDs: false,
     showAttitude: false,
     showEkfHelper: false,
