@@ -12,8 +12,8 @@
 - In ambiguous queries, asks for clarification, polls data needed, and passes to Analyst agent to make conclusions using prompt injection, added context, and recursive calls. 
 
 ## Installation instructions
-- ensure node 16
-- ensure python 13 
+- tested on node 16
+- tested on python 13 
 - needs cesium key in src\components\CesiumViewer.vue otherwise will hang after file upload
 - needs openai key in backend/baseLLM.py
 
