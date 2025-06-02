@@ -166,7 +166,7 @@ export default {
           headers: {
             'Content-Type': 'application/json'
           },
-          timeout: 30000 // 30 second timeout
+          timeout: 90000 // 90 second timeout
         })
 
         if (response.data.status === 'success') {
@@ -226,11 +226,11 @@ export default {
         const response = await axios.get(`${this.apiBaseUrl}/api/chat/context`)
 
         if (response.data.status === 'success' && response.data.context.available_tables.length > 0) {
-          const tables = response.data.context.available_tables
+          // const tables = response.data.context.available_tables
           const contextMessage = {
             id: this.messageIdCounter++,
             type: 'bot',
-            text: `I can see you have flight data loaded with the following tables: ${tables.join(', ')}.\n\nWhat would you like to know about your flight data?`,
+            text: 'I can see you have flight data loaded. \n\nWhat would you like to know about your flight data?',
             timestamp: new Date()
           }
 
