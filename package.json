@@ -6,7 +6,9 @@
   "private": true,
   "scripts": {
     "dev": "node --max_old_space_size=4096 node_modules/webpack-dev-server/bin/webpack-dev-server.js --host 0.0.0.0 --progress --config build/webpack.dev.conf.js",
-    "start": "npm run dev",
+    "start": "concurrently \"npm run start:frontend\" \"npm run start:backend\"",
+    "start:frontend": "npm run dev",
+    "start:backend": "python ./backend/app.py",
     "unit": "jest --config test/unit/jest.conf.js --coverage",
     "e2e": "node test/e2e/runner.js",
     "test": "npm run unit && npm run e2e",
@@ -81,6 +83,7 @@
     "cesium": "^1.100.0",
     "chalk": "^5.0.1",
     "compression-webpack-plugin": "^10.0.0",
+    "concurrently": "^9.1.2",
     "copy-webpack-plugin": "^11.0.0",
     "cross-env": "~5.2",
     "cross-spawn": "^5.1.0",

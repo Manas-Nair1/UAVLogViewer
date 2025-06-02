@@ -167,34 +167,9 @@ async def chat_with_llm(chat_request: ChatMessage):
     try:
         logger.info(f"Received chat message: {chat_request.message}")
         
-        # Get database context to provide to the LLM
-        context_info = ""
-        try:
-            tables = db_manager.get_all_tables()
-            if tables:
-                context_info = f"\nAvailable flight data tables: {', '.join(tables)}\n"
-                
-                # Get summary of data
-                summary = await get_database_summary()
-                if summary.get("status") == "success":
-                    table_summaries = []
-                    for table in summary["summary"]["tables"]:
-                        table_summaries.append(f"- {table['name']}: {table['row_count']} rows")
-                    context_info += "Data summary:\n" + "\n".join(table_summaries)
-        except Exception as e:
-            logger.warning(f"Could not get database context: {e}")
-        
-        # Enhance the user message with context
-        enhanced_message = f"""You are an assistant helping analyze UAV/drone flight log data. 
-        
-{context_info}
 
-User question: {chat_request.message}
 
-Please provide helpful analysis or insights about the flight data. If the user asks about specific data, let them know what tables are available."""
-
-        # Get response from LLM
-        response = create_chat_completion(enhanced_message)
+        response = create_chat_completion(chat_request.message)
         
         logger.info("Successfully generated LLM response")
         return ChatResponse(response=response, status="success")
@@ -202,6 +177,7 @@ Please provide helpful analysis or insights about the flight data. If the user a
     except Exception as e:
         logger.error(f"Error in chat endpoint: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Chat error: {str(e)}")
+
 
 @app.post("/api/chat/clear")
 async def clear_chat_history():
