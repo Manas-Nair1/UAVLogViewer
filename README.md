@@ -1,9 +1,21 @@
-# UAV Log Viewer
+### Manas Nair fork of UAV log viewer
 
-![log seeking](preview.gif "Logo Title Text 1")
+## Notes/considerations
+- MVP version of flight aware chatbot 
+- eslint had most of its rules turned off during dev
+- not prod ready -  db should be stored client side not serverside(security issue aswell)
 
- This is a Javascript based log viewer for Mavlink telemetry and dataflash logs.
- [Live demo here](http://plot.ardupilot.org).
+## How it works
+- injects data parsed from .bin files to python through a post request 
+- parsed data is cached to a db in %appdata% on server, allows llm to have persistent access to data. Only cleared on new file upload
+- LLM Agent interacts with user instructions using "actions." Key actions are making DB calls to get data dynamically and delegating analysis to a specific flight engineer Agent
+- In ambiguous queries, asks for clarification, polls data needed, and passes to Analyst agent to make conclusions using prompt injection, added context, and recursive calls. 
+
+## Installation instructions
+- ensure node 16
+- ensure python 13 
+- needs cesium key in src\components\CesiumViewer.vue otherwise will hang after file upload
+- needs openai key in backend/baseLLM.py
 
 ## Build Setup
 
@@ -11,43 +23,10 @@
 # install dependencies
 npm install
 
+#dont use npm run dev only starts frontend
+
 # serve with hot reload at localhost:8080
-npm run dev
+npm run start #starts both frontend and backend concurrently
 
-# build for production with minification
-npm run build
-
-# run unit tests
-npm run unit
-
-# run e2e tests
-npm run e2e
-
-# run all tests
-npm test
-```
-
-# Docker
-
-run the prebuilt docker image:
-
-``` bash
-docker run -p 8080:8080 -d ghcr.io/ardupilot/uavlogviewer:latest
-
-```
-
-or build the docker file locally:
-
-``` bash
-
-# Build Docker Image
-docker build -t manasnair1/uavlogviewer .
-
-# Run Docker Image
-docker run -e VUE_APP_CESIUM_TOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI5OTc4ZmM2Zi1mMTAwLTRiMDgtOWFiMy1jMDZkNmIxMDYzMzciLCJpZCI6MzA4MDQzLCJpYXQiOjE3NDg3MDI4Nzh9.B471G6n68ywPyk8A-RO6-C1o7VzcW2L6ksrWpg3zGsc -it -p 8080:8080 -v ${PWD}:/usr/src/app manasnair1/uavlogviewer
-
-# Navigate to localhost:8080 in your web browser
-
-# changes should automatically be applied to the viewer
 
 ```
